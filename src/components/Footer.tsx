@@ -55,11 +55,11 @@ const footerColumns = [
 ];
 
 const socialLinks = [
-  { icon: Facebook, href: "#", label: "Facebook" },
-  { icon: Twitter, href: "#", label: "Twitter" },
-  { icon: Instagram, href: "#", label: "Instagram" },
-  { icon: Youtube, href: "#", label: "YouTube" },
-  { icon: Linkedin, href: "#", label: "LinkedIn" },
+  { icon: Facebook, href: "#", label: "Facebook", color: "#1877F2" },
+  { icon: Twitter, href: "#", label: "Twitter", color: "#000000" },
+  { icon: Instagram, href: "#", label: "Instagram", color: "#E4405F" },
+  { icon: Youtube, href: "#", label: "YouTube", color: "#FF0000" },
+  { icon: Linkedin, href: "#", label: "LinkedIn", color: "#0A66C2" },
 ];
 
 export default function Footer() {
@@ -100,7 +100,18 @@ export default function Footer() {
                     key={social.label}
                     href={social.href}
                     aria-label={social.label}
-                    className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-white/40 hover:bg-[#0B8F55] hover:text-white transition-all duration-300"
+                    className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-white/40 transition-all duration-300"
+                    style={{
+                      "--social-color": social.color,
+                    } as React.CSSProperties}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.backgroundColor = social.color;
+                      e.currentTarget.style.color = "#ffffff";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor = "";
+                      e.currentTarget.style.color = "";
+                    }}
                   >
                     <Icon className="w-3.5 h-3.5" />
                   </a>
