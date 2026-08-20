@@ -4,91 +4,19 @@ import { motion } from "framer-motion";
 import {
   Trophy, GraduationCap, Users, ArrowRight, Star, ChevronRight,
   Heart, Target, TrendingUp, Shield, Globe, Zap, Calendar,
-  Play, ChevronLeft, ChevronRight as ChevronRightIcon,
-  CheckCircle, ArrowUpRight,
+  ChevronLeft, ChevronRight as ChevronRightIcon,
+  CheckCircle,
 } from "lucide-react";
 import ScrollReveal from "@/components/ScrollReveal";
 import AnimatedCounter from "@/components/AnimatedCounter";
 import SectionHeader from "@/components/SectionHeader";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import HeroCarousel from "@/components/HeroCarousel";
 import {
   stats, impactStats, talents, projects, news, testimonials,
   partners, detectionSteps,
 } from "@/data/academy";
-
-// ----------------------------------------------------------------
-// Hero
-// ----------------------------------------------------------------
-function Hero() {
-  return (
-    <section className="relative min-h-screen flex items-center overflow-hidden">
-      {/* Background image */}
-      <div className="absolute inset-0">
-        <img
-          src="https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=1920&h=1080&fit=crop"
-          alt="Jeunes footballeurs en entraînement"
-          className="w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#071A2F]/80 via-[#071A2F]/60 to-[#071A2F]/90" />
-      </div>
-
-      {/* Animated gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-r from-[#0B8F55]/10 to-[#F4B942]/5 animate-pulse" style={{ animationDuration: "4s" }} />
-
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-          className="max-w-3xl"
-        >
-          <span className="inline-block px-4 py-1.5 bg-[#0B8F55]/20 text-[#0B8F55] text-xs font-semibold uppercase tracking-wider rounded-full mb-6 border border-[#0B8F55]/30">
-            Former des talents · Construire des destins
-          </span>
-          <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold text-white font-[Poppins] leading-[1.1]">
-            Le talent est{" "}
-            <span className="text-[#F4B942]">partout</span>.
-            <br />
-            Les opportunités{" "}
-            <span className="text-[#0B8F55]">ne le sont pas</span>.
-          </h1>
-          <p className="mt-6 text-lg sm:text-xl text-white/70 max-w-xl leading-relaxed">
-            Nous donnons aux jeunes talents les moyens de transformer leur passion
-            pour le football en véritable avenir.
-          </p>
-          <div className="mt-10 flex flex-wrap gap-4">
-            <Link
-              to="/academie"
-              className="inline-flex items-center gap-2 px-8 py-4 bg-[#0B8F55] hover:bg-[#0a7d4a] text-white font-semibold rounded-full transition-all hover:shadow-xl hover:shadow-[#0B8F55]/25 text-sm"
-            >
-              Découvrir l'académie
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-            <Link
-              to="/soutenir"
-              className="inline-flex items-center gap-2 px-8 py-4 bg-[#F4B942] hover:bg-[#e5a832] text-[#071A2F] font-semibold rounded-full transition-all hover:shadow-xl hover:shadow-[#F4B942]/25 text-sm"
-            >
-              <Heart className="w-4 h-4" />
-              Soutenir un talent
-            </Link>
-          </div>
-        </motion.div>
-      </div>
-
-      {/* Scroll indicator */}
-      <motion.div
-        animate={{ y: [0, 8, 0] }}
-        transition={{ duration: 2, repeat: Infinity }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2"
-      >
-        <div className="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center pt-2">
-          <div className="w-1 h-2 bg-white/60 rounded-full" />
-        </div>
-      </motion.div>
-    </section>
-  );
-}
 
 // ----------------------------------------------------------------
 // Stats Bar
@@ -922,7 +850,7 @@ export default function Landing() {
     <div className="min-h-screen">
       <Header />
       <main>
-        <Hero />
+        <HeroCarousel />
         <StatsBar />
         <Mission />
         <DetectionTeaser />
