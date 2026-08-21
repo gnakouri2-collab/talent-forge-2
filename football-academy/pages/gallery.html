@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galerie — Africa Football Academy</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="../assets/css/style.css" rel="stylesheet">
+    <style>
+        .gallery-item { cursor: pointer; overflow: hidden; border-radius: 12px; position: relative; }
+        .gallery-item img { transition: transform .5s ease; }
+        .gallery-item:hover img { transform: scale(1.05); }
+        .gallery-item .gallery-overlay { position: absolute; inset: 0; background: linear-gradient(transparent 50%, rgba(7,26,47,.8)); opacity: 0; transition: opacity .3s ease; display: flex; align-items: flex-end; padding: 1.5rem; }
+        .gallery-item:hover .gallery-overlay { opacity: 1; }
+        .gallery-overlay h6 { color: #fff; font-weight: 600; margin: 0; }
+        .gallery-overlay small { color: rgba(255,255,255,.7); }
+        .lightbox { display: none; position: fixed; inset: 0; z-index: 9999; background: rgba(0,0,0,.92); align-items: center; justify-content: center; }
+        .lightbox.active { display: flex; }
+        .lightbox img { max-width: 90vw; max-height: 85vh; border-radius: 8px; }
+        .lightbox-close { position: absolute; top: 1rem; right: 1.5rem; color: #fff; font-size: 2rem; cursor: pointer; z-index: 10; }
+        .lightbox-nav { position: absolute; top: 50%; transform: translateY(-50%); color: #fff; font-size: 2.5rem; cursor: pointer; z-index: 10; padding: 1rem; }
+        .lightbox-nav:hover { color: var(--accent); }
+        .lightbox-prev { left: 1rem; }
+        .lightbox-next { right: 1rem; }
+        .lightbox-caption { position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%); color: #fff; text-align: center; }
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-xl navbar-dark fixed-top scrolled" id="mainNav">
+    <div class="container-fluid px-3 px-xl-5">
+        <a class="navbar-brand d-flex align-items-center" href="../index.html">
+            <div class="brand-icon"><i class="bi bi-shield-fill-check"></i></div>
+            <div class="ms-2">
+                <span class="fw-bold fs-5 brand-text">AFRICA</span>
+                <span class="d-block" style="font-size:.65rem;letter-spacing:2px;opacity:.85;margin-top:-3px">FOOTBALL ACADEMY</span>
+            </div>
+        </a>
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navContent"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse justify-content-between" id="navContent">
+            <ul class="navbar-nav mx-xl-auto gap-xl-1">
+                <li class="nav-item"><a class="nav-link" href="../index.html">Accueil</a></li>
+                <li class="nav-item"><a class="nav-link" href="about.html">L'Académie</a></li>
+                <li class="nav-item"><a class="nav-link" href="talents.html">Nos Talents</a></li>
+                <li class="nav-item"><a class="nav-link" href="formation.html">Formation</a></li>
+                <li class="nav-item"><a class="nav-link" href="detection.html">Détection</a></li>
+                <li class="nav-item"><a class="nav-link" href="projects.html">Projets</a></li>
+                <li class="nav-item"><a class="nav-link" href="news.html">Actualités</a></li>
+                <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+            </ul>
+            <div class="d-flex align-items-center gap-2 mt-3 mt-xl-0">
+                <a href="donate.html" class="btn btn-accent btn-sm px-3 fw-semibold">Soutenir un talent</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- Page Hero -->
+<section class="page-hero" style="background: linear-gradient(135deg, var(--primary), #0d2d4a);">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-3">
+                <li class="breadcrumb-item"><a href="../index.html" class="text-white-50">Accueil</a></li>
+                <li class="breadcrumb-item active text-white">Galerie</li>
+            </ol>
+        </nav>
+        <h1 class="display-5 fw-bold">Notre <span class="text-accent">Galerie</span></h1>
+        <p class="lead opacity-75 mb-0">Moments capturés de la vie de l'académie</p>
+    </div>
+</section>
+
+<!-- Filters -->
+<section class="py-4 bg-light border-bottom sticky-top" style="top:60px;z-index:100;">
+    <div class="container">
+        <div class="d-flex flex-wrap gap-2 align-items-center">
+            <span class="fw-semibold me-2"><i class="bi bi-funnel"></i> Filtrer :</span>
+            <button class="btn btn-sm btn-accent gallery-filter active" data-filter="all">Tous</button>
+            <button class="btn btn-sm btn-outline-secondary gallery-filter" data-filter="entrainement">Entraînements</button>
+            <button class="btn btn-sm btn-outline-secondary gallery-filter" data-filter="match">Matchs</button>
+            <button class="btn btn-sm btn-outline-secondary gallery-filter" data-filter="talent">Talents</button>
+            <button class="btn btn-sm btn-outline-secondary gallery-filter" data-filter="evenement">Événements</button>
+            <button class="btn btn-sm btn-outline-secondary gallery-filter" data-filter="infrastructure">Infrastructures</button>
+        </div>
+    </div>
+</section>
+
+<!-- Gallery Grid -->
+<section class="py-5">
+    <div class="container">
+        <div class="row g-3" id="galleryGrid">
+
+            <div class="col-lg-4 col-md-6 gallery-item-col" data-category="entrainement">
+                <div class="gallery-item h-100" onclick="openLightbox(0)">
+                    <div class="rounded-4 overflow-hidden" style="height:280px;background:linear-gradient(135deg,#0B8F55,#071A2F);">
+                        <div class="d-flex align-items-center justify-content-center h-100"><i class="bi bi-play-circle text-white" style="font-size:3rem;opacity:.3"></i></div>
+                    </div>
+                    <div class="gallery-overlay"><div><h6>Entraînement tactique</h6><small>Entraînement · 12 janv. 2025</small></div></div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 gallery-item-col" data-category="match">
+                <div class="gallery-item h-100" onclick="openLightbox(1)">
+                    <div class="rounded-4 overflow-hidden" style="height:280px;background:linear-gradient(135deg,#17202A,#0B8F55);">
+                        <div class="d-flex align-items-center justify-content-center h-100"><i class="bi bi-trophy text-white" style="font-size:3rem;opacity:.3"></i></div>
+                    </div>
+                    <div class="gallery-overlay"><div><h6>Victoire en championnat</h6><small>Match · 28 déc. 2024</small></div></div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 gallery-item-col" data-category="talent">
+                <div class="gallery-item h-100" onclick="openLightbox(2)">
+                    <div class="rounded-4 overflow-hidden" style="height:280px;background:linear-gradient(135deg,#F4B942,#071A2F);">
+                        <div class="d-flex align-items-center justify-content-center h-100"><i class="bi bi-person text-white" style="font-size:3rem;opacity:.3"></i></div>
+                    </div>
+                    <div class="gallery-overlay"><div><h6>Portrait — Amadou Diallo</h6><small>Talent · 15 janv. 2025</small></div></div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 gallery-item-col" data-category="infrastructure">
+                <div class="gallery-item h-100" onclick="openLightbox(3)">
+                    <div class="rounded-4 overflow-hidden" style="height:280px;background:linear-gradient(135deg,#071A2F,#0d2d4a);">
+                        <div class="d-flex align-items-center justify-content-center h-100"><i class="bi bi-building text-white" style="font-size:3rem;opacity:.3"></i></div>
+                    </div>
+                    <div class="gallery-overlay"><div><h6>Nouveau terrain synthétique</h6><small>Infrastructure · 10 janv. 2025</small></div></div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 gallery-item-col" data-category="evenement">
+                <div class="gallery-item h-100" onclick="openLightbox(4)">
+                    <div class="rounded-4 overflow-hidden" style="height:280px;background:linear-gradient(135deg,#0B8F55,#F4B942);">
+                        <div class="d-flex align-items-center justify-content-center h-100"><i class="bi bi-megaphone text-white" style="font-size:3rem;opacity:.3"></i></div>
+                    </div>
+                    <div class="gallery-overlay"><div><h6>Cérémonie de remise des diplômes</h6><small>Événement · 20 déc. 2024</small></div></div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 gallery-item-col" data-category="entrainement">
+                <div class="gallery-item h-100" onclick="openLightbox(5)">
+                    <div class="rounded-4 overflow-hidden" style="height:280px;background:linear-gradient(135deg,#071A2F,#0B8F55);">
+                        <div class="d-flex align-items-center justify-content-center h-100"><i class="bi bi-lightning text-white" style="font-size:3rem;opacity:.3"></i></div>
+                    </div>
+                    <div class="gallery-overlay"><div><h6>Séance physique intense</h6><small>Entraînement · 5 janv. 2025</small></div></div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 gallery-item-col" data-category="match">
+                <div class="gallery-item h-100" onclick="openLightbox(6)">
+                    <div class="rounded-4 overflow-hidden" style="height:280px;background:linear-gradient(135deg,#F4B942,#0B8F55);">
+                        <div class="d-flex align-items-center justify-content-center h-100"><i class="bi bi-flag text-white" style="font-size:3rem;opacity:.3"></i></div>
+                    </div>
+                    <div class="gallery-overlay"><div><h6>Célébration de but</h6><small>Match · 22 déc. 2024</small></div></div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 gallery-item-col" data-category="talent">
+                <div class="gallery-item h-100" onclick="openLightbox(7)">
+                    <div class="rounded-4 overflow-hidden" style="height:280px;background:linear-gradient(135deg,#071A2F,#F4B942);">
+                        <div class="d-flex align-items-center justify-content-center h-100"><i class="bi bi-star text-white" style="font-size:3rem;opacity:.3"></i></div>
+                    </div>
+                    <div class="gallery-overlay"><div><h6>Portrait — Moussa Sow</h6><small>Talent · 10 janv. 2025</small></div></div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 gallery-item-col" data-category="infrastructure">
+                <div class="gallery-item h-100" onclick="openLightbox(8)">
+                    <div class="rounded-4 overflow-hidden" style="height:280px;background:linear-gradient(135deg,#17202A,#0d2d4a);">
+                        <div class="d-flex align-items-center justify-content-center h-100"><i class="bi bi-house text-white" style="font-size:3rem;opacity:.3"></i></div>
+                    </div>
+                    <div class="gallery-overlay"><div><h6>Vue aérienne de l'académie</h6><small>Infrastructure · 15 janv. 2025</small></div></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox">
+    <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
+    <span class="lightbox-nav lightbox-prev" onclick="prevSlide()"><i class="bi bi-chevron-left"></i></span>
+    <div class="text-center">
+        <div id="lightboxContent" style="width:80vw;max-width:900px;height:60vh;border-radius:12px;"></div>
+        <div class="lightbox-caption">
+            <h5 class="fw-bold" id="lightboxTitle">Titre</h5>
+            <small id="lightboxCategory" class="text-white-50">Catégorie</small>
+        </div>
+    </div>
+    <span class="lightbox-nav lightbox-next" onclick="nextSlide()"><i class="bi bi-chevron-right"></i></span>
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="footer-accent-line"></div>
+    <div class="footer-contact-bar">
+        <div class="container">
+            <div class="d-flex flex-wrap justify-content-between align-items-center py-3">
+                <div class="d-flex gap-4 flex-wrap">
+                    <a href="mailto:info@africafootballacademy.com" class="text-white-50 text-decoration-none small"><i class="bi bi-envelope-fill text-accent me-1"></i> info@africafootballacademy.com</a>
+                    <a href="tel:+221771234567" class="text-white-50 text-decoration-none small"><i class="bi bi-telephone-fill text-accent me-1"></i> +221 77 123 45 67</a>
+                </div>
+                <div class="d-flex gap-2 mt-2 mt-md-0">
+                    <a href="#" class="social-icon-circle social-facebook"><i class="bi bi-facebook"></i></a>
+                    <a href="#" class="social-icon-circle social-twitter"><i class="bi bi-twitter-x"></i></a>
+                    <a href="#" class="social-icon-circle social-instagram"><i class="bi bi-instagram"></i></a>
+                    <a href="#" class="social-icon-circle social-youtube"><i class="bi bi-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container py-5">
+        <div class="row g-4">
+            <div class="col-lg-4">
+                <div class="d-flex align-items-center mb-3">
+                    <div class="brand-icon"><i class="bi bi-shield-fill-check"></i></div>
+                    <div class="ms-2">
+                        <span class="fw-bold fs-5 text-white">AFRICA</span>
+                        <span class="d-block" style="font-size:.65rem;letter-spacing:2px;opacity:.85;margin-top:-3px;color:var(--secondary)">FOOTBALL ACADEMY</span>
+                    </div>
+                </div>
+                <p class="text-white-50 small mb-0">Former des talents. Construire des destins. Transformer des vies.</p>
+            </div>
+            <div class="col-6 col-lg-2"><h6 class="text-white fw-bold mb-3">L'Académie</h6><ul class="list-unstyled footer-links"><li><a href="about.html">À propos</a></li><li><a href="formation.html">Formation</a></li><li><a href="detection.html">Détection</a></li></ul></div>
+            <div class="col-6 col-lg-2"><h6 class="text-white fw-bold mb-3">Programmes</h6><ul class="list-unstyled footer-links"><li><a href="talents.html">Nos talents</a></li><li><a href="projects.html">Projets</a></li><li><a href="gallery.html">Galerie</a></li></ul></div>
+            <div class="col-6 col-lg-2"><h6 class="text-white fw-bold mb-3">Soutenir</h6><ul class="list-unstyled footer-links"><li><a href="donate.html">Faire un don</a></li><li><a href="partners.html">Partenaires</a></li></ul></div>
+            <div class="col-6 col-lg-2"><h6 class="text-white fw-bold mb-3">Ressources</h6><ul class="list-unstyled footer-links"><li><a href="news.html">Actualités</a></li><li><a href="events.html">Événements</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+        </div>
+        <hr class="border-secondary my-4">
+        <div class="text-center"><p class="text-white-50 small mb-0">© 2025 Africa Football Academy. Tous droits réservés.</p></div>
+    </div>
+</footer>
+
+<a href="https://wa.me/221771234567" class="whatsapp-float" aria-label="WhatsApp" target="_blank"><i class="bi bi-whatsapp"></i></a>
+<button id="scrollTopBtn" class="scroll-top-btn" aria-label="Retour en haut"><i class="bi bi-arrow-up"></i></button>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../assets/js/main.js"></script>
+<script>
+const galleryItems = document.querySelectorAll('.gallery-item-col');
+let currentIndex = 0;
+
+const galleryData = [
+    { title: 'Entraînement tactique', category: 'Entraînement', bg: 'linear-gradient(135deg,#0B8F55,#071A2F)', icon: 'bi-play-circle' },
+    { title: 'Victoire en championnat', category: 'Match', bg: 'linear-gradient(135deg,#17202A,#0B8F55)', icon: 'bi-trophy' },
+    { title: 'Portrait — Amadou Diallo', category: 'Talent', bg: 'linear-gradient(135deg,#F4B942,#071A2F)', icon: 'bi-person' },
+    { title: 'Nouveau terrain synthétique', category: 'Infrastructure', bg: 'linear-gradient(135deg,#071A2F,#0d2d4a)', icon: 'bi-building' },
+    { title: 'Cérémonie de remise des diplômes', category: 'Événement', bg: 'linear-gradient(135deg,#0B8F55,#F4B942)', icon: 'bi-megaphone' },
+    { title: 'Séance physique intense', category: 'Entraînement', bg: 'linear-gradient(135deg,#071A2F,#0B8F55)', icon: 'bi-lightning' },
+    { title: 'Célébration de but', category: 'Match', bg: 'linear-gradient(135deg,#F4B942,#0B8F55)', icon: 'bi-flag' },
+    { title: 'Portrait — Moussa Sow', category: 'Talent', bg: 'linear-gradient(135deg,#071A2F,#F4B942)', icon: 'bi-star' },
+    { title: 'Vue aérienne de l\'académie', category: 'Infrastructure', bg: 'linear-gradient(135deg,#17202A,#0d2d4a)', icon: 'bi-house' }
+];
+
+function updateLightbox() {
+    const item = galleryData[currentIndex];
+    document.getElementById('lightboxContent').style.background = item.bg;
+    document.getElementById('lightboxContent').innerHTML = '<div class="d-flex align-items-center justify-content-center h-100"><i class="bi ' + item.icon + ' text-white" style="font-size:5rem;opacity:.4"></i></div>';
+    document.getElementById('lightboxTitle').textContent = item.title;
+    document.getElementById('lightboxCategory').textContent = item.category;
+}
+
+function openLightbox(index) {
+    currentIndex = index;
+    updateLightbox();
+    document.getElementById('lightbox').classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+function nextSlide() { currentIndex = (currentIndex + 1) % galleryData.length; updateLightbox(); }
+function prevSlide() { currentIndex = (currentIndex - 1 + galleryData.length) % galleryData.length; updateLightbox(); }
+
+document.getElementById('lightbox').addEventListener('click', function(e) {
+    if (e.target === this) closeLightbox();
+});
+document.addEventListener('keydown', function(e) {
+    if (!document.getElementById('lightbox').classList.contains('active')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowRight') nextSlide();
+    if (e.key === 'ArrowLeft') prevSlide();
+});
+
+// Gallery filter
+document.querySelectorAll('.gallery-filter').forEach(btn => {
+    btn.addEventListener('click', function() {
+        document.querySelectorAll('.gallery-filter').forEach(b => b.classList.remove('active', 'btn-accent'));
+        document.querySelectorAll('.gallery-filter').forEach(b => b.classList.add('btn-outline-secondary'));
+        this.classList.add('active', 'btn-accent');
+        this.classList.remove('btn-outline-secondary');
+        const filter = this.dataset.filter;
+        galleryItems.forEach(item => {
+            if (filter === 'all' || item.dataset.category === filter) {
+                item.style.display = '';
+            } else {
+                item.style.display = 'none';
+            }
+        });
+    });
+});
+</script>
+</body>
+</html>
